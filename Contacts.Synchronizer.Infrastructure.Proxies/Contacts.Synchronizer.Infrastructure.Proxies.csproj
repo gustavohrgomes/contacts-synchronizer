@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="./../Contacts.props" />
+
+	<ItemGroup>
+	  <PackageReference Include="Refit" Version="8.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Contacts.Synchronizer.Domain\Contacts.Synchronizer.Domain.csproj" />
+	</ItemGroup>
+
+</Project>
