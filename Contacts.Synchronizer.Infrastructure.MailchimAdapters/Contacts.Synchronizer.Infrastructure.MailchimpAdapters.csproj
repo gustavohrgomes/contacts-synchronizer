@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="./../Contacts.props" />
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Contacts.Synchronizer.Contracts\Contacts.Synchronizer.Contracts.csproj" />
+	  <ProjectReference Include="..\Contacts.Synchronizer.Domain\Contacts.Synchronizer.Domain.csproj" />
+	</ItemGroup>
+	
+</Project>

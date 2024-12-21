@@ -9,9 +9,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\Contacts.Synchronizer.Application\Contacts.Synchronizer.Application.csproj" />
 	  <ProjectReference Include="..\Contacts.Synchronizer.Contracts\Contacts.Synchronizer.Contracts.csproj" />
 	  <ProjectReference Include="..\Contacts.Synchronizer.Domain\Contacts.Synchronizer.Domain.csproj" />
-	  <ProjectReference Include="..\Contacts.Synchronizer.Infrastructure.Proxies\Contacts.Synchronizer.Infrastructure.Proxies.csproj" />
+	  <ProjectReference Include="..\Contacts.Synchronizer.Infrastructure.MailchimAdapters\Contacts.Synchronizer.Infrastructure.MailchimpAdapters.csproj" />
 	  <ProjectReference Include="..\Contacts.Synchronizer.ServiceDefaults\Contacts.Synchronizer.ServiceDefaults.csproj" />
 	</ItemGroup>
 

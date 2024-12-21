@@ -1,3 +1,4 @@
+using Contacts.Adapters.SyncContacts;
 using Contacts.Features.Sync;
 using Contacts.Proxies;
 using Contacts.Services;
@@ -14,10 +15,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IContactsSyncService, ContactsSyncService>();
-
 builder.Services
-    .AddRefitClient<IMockApiClient>()
+    .AddRefitClient<IContactsGetService>()
     .ConfigureHttpClient(config => config.BaseAddress = new Uri("https://challenge.trio.dev"));
 
 builder.Services
@@ -27,6 +26,10 @@ builder.Services
         config.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", "a2V5OjI5N2U0MDVmM2FjZmZkZGVkMjMwNzA1YzcyOGZlMjExLXVzMTQ=");
     })
     .AddStandardResilienceHandler();
+
+builder.Services
+    .AddScoped<IContactsSyncService, ContactsSyncService>()
+    .AddScoped<IContactsSynchronizer, MailchimpContactsSynchronizer>();
 
 var app = builder.Build();
 

@@ -1,5 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<Import Project="./../Contacts.props" />
+
+	<ItemGroup>
+	  <PackageReference Include="Refit" Version="8.0.0" />
+	</ItemGroup>
 	
 </Project>

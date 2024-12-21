@@ -1,34 +1,28 @@
-﻿using Contacts.DTOs;
-using Contacts.Models;
+﻿using Contacts.Models;
 using Contacts.Proxies;
-using Contacts.Services;
 
-namespace Contacts.Features.Sync;
+namespace Contacts.Adapters.SyncContacts;
 
-public class ContactsSyncService(IMockApiClient mockApiClient, MailchimpClient mailchimpClient) : IContactsSyncService
+public class MailchimpContactsSynchronizer(MailchimpClient mailchimpClient) : IContactsSynchronizer
 {
-    public async Task<SyncedContactsDTO> SyncContactsAsync(CancellationToken cancellationToken = default)
+    public async Task SynchronizeAsync(SyncContactsCommand command, CancellationToken cancellationToken)
     {
-        var contacts = await mockApiClient.GetContactsAsync();
+        var audienceId = await mailchimpClient.CreateListAsync(CreateAudienceRequestModel(command.EventName), cancellationToken);
 
-        // Mailchimp logic goes here. I should Write an adapter for this.
-        var audienceId = await mailchimpClient.CreateListAsync(CreateAudienceRequestModel("Backend Challenge"), cancellationToken);
-
-        var contactsToSync = contacts.Select(c => new MemberModel
+        var contactsToSync = command.Contacts.Select(c => new MemberModel
         {
             EmailType = EmailType.Html,
             EmailAddress = c.Email,
             Status = MemberStatus.Subscribed,
-        });
+        })
+        .ToList();
 
         var request = new AddMembersToListRequest
         {
-            Members = [.. contactsToSync]
+            Members = contactsToSync
         };
 
         await mailchimpClient.AddMembersToListAsync(audienceId, request, cancellationToken);
-
-        return new SyncedContactsDTO(contacts.Count, [.. contacts.Select(c => new ContactDTO(c.FirstName, c.LastName, c.Email))]);
     }
 
     private static CreateAudienceRequestModel CreateAudienceRequestModel(string eventName)

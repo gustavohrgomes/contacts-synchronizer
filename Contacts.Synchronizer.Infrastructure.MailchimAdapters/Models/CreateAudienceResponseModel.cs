@@ -14,7 +14,7 @@ public class CreateAudienceResponseModel
     public string Name { get; set; } = default!;
 
     [JsonPropertyName("contact")]
-    public Contact Contact { get; set; } = default!;
+    public ContactModel Contact { get; set; } = default!;
 
     [JsonPropertyName("permission_reminder")]
     public string PermissionReminder { get; set; } = default!;
