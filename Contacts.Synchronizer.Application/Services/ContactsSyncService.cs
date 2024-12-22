@@ -5,17 +5,17 @@ namespace Contacts.Services;
 
 public class ContactsSyncService(IContactsGetService contactsService, IContactsSynchronizer contactsSynchronizer) : IContactsSyncService
 {
-    public async Task<SyncedContactsDTO> SyncContactsAsync(CancellationToken cancellationToken = default)
+    public async Task<SyncedContactsResponse> SyncContactsAsync(CancellationToken cancellationToken = default)
     {
         var contacts = await contactsService.GetContactsAsync(cancellationToken);
 
+        if (contacts is { Count: 0})
+        {
+            return new SyncedContactsResponse(0, Array.Empty<ContactResponse>());
+        }
+
         await contactsSynchronizer.SynchronizeAsync(new SyncContactsCommand("Gustavo Gomes", contacts), cancellationToken).ConfigureAwait(false);
 
-        return new SyncedContactsDTO(contacts.Count, [.. contacts.Select(c => new ContactDTO 
-        {
-            FirstName = c.FirstName,
-            LastName = c.LastName,
-            Email = c.Email
-        })]);
+        return new SyncedContactsResponse(contacts.Count, [.. contacts.Select(c => new ContactResponse(c.FirstName, c.LastName, c.Email))]);
     }
 }

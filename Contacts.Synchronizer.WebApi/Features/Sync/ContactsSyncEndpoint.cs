@@ -19,7 +19,7 @@ public static class ContactsSyncEndpoint
         .WithName("ContactsSync")
         .WithDisplayName("ContactsSync")
         .WithDescription("Used for sync contacts with mail marketing tool")
-        .Produces(StatusCodes.Status200OK, typeof(SyncedContactsDTO));
+        .Produces(StatusCodes.Status200OK, typeof(SyncedContactsResponse));
 
         return app;
     }
