@@ -72,10 +72,16 @@ This project is a backend application built with ASP.NET Core to synchronize con
      }
      ```
 
-4. Run the application locally:
-   ```bash
-   dotnet run
-   ```
+4. Running the application:
+  - Locally
+    ```bash
+    dotnet run --project .\Contacts.Synchronizer.WebApi\Contacts.Synchronizer.WebApi.csproj 
+    ```
+  - Aspire
+    ```bash
+    dotnet run --project .\Contacts.Synchronizer.AppHost\Contacts.Synchronizer.AppHost.csproj 
+    ```
+
 
 ---
 
@@ -95,13 +101,13 @@ Refer to the full [Technical Design Document](https://link-to-google-doc) for de
 
 ## **Demo**
 The application is deployed and accessible at:
-[https://your-deployment-url](https://your-deployment-url)
+[https://contacts-synchronizer.fly.dev/](https://contacts-synchronizer.fly.dev/swagger/index.html)
 
 ---
 
 ## **Video Walkthrough**
 A video walkthrough of the solution explaining how it works, how it was built, and the design decisions is available here:
-[https://link-to-video](https://link-to-video)
+[https://drive.google.com/file/d/1Wp2yeYb8ZAu8-rvwo3C2suUE-tw3AOHc/view?usp=sharing](https://drive.google.com/file/d/1Wp2yeYb8ZAu8-rvwo3C2suUE-tw3AOHc/view?usp=sharing)
 
 ---
 
