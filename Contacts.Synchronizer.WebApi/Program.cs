@@ -27,20 +27,25 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services
+    .AddScoped<IContactsSyncService, ContactsSyncService>()
+    .AddScoped<IContactsSynchronizer, MailchimpContactsSynchronizer>();
+
+var mockApiAddress = builder.Configuration.GetValue<string>("ApplicationSettings:MockAPIAddress")!;
+var mailMarketingAddress = builder.Configuration.GetValue<string>("ApplicationSettings:MailMarketingAddress")!;
+var mailMarketingAuthType = builder.Configuration.GetValue<string>("ApplicationSettings:MailMarketingAuthType")!;
+var mailMarketingAPIKey = builder.Configuration.GetValue<string>("ApplicationSettings:MailMarketingAPIKey")!;
+
+builder.Services
     .AddRefitClient<IContactsGetService>()
-    .ConfigureHttpClient(config => config.BaseAddress = new Uri("https://challenge.trio.dev"));
+    .ConfigureHttpClient(config => config.BaseAddress = new Uri(mockApiAddress));
 
 builder.Services
     .AddHttpClient<MailchimpClient>(config =>
     {
-        config.BaseAddress = new Uri("https://us14.api.mailchimp.com/3.0/");
-        config.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", "a2V5OjI5N2U0MDVmM2FjZmZkZGVkMjMwNzA1YzcyOGZlMjExLXVzMTQ=");
+        config.BaseAddress = new Uri(mailMarketingAddress);
+        config.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(mailMarketingAuthType, mailMarketingAPIKey);
     })
     .AddStandardResilienceHandler();
-
-builder.Services
-    .AddScoped<IContactsSyncService, ContactsSyncService>()
-    .AddScoped<IContactsSynchronizer, MailchimpContactsSynchronizer>();
 
 builder.Services.AddServiceLogEnricher();
 
