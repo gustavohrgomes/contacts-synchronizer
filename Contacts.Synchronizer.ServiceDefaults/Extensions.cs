@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
@@ -7,12 +9,17 @@ using Microsoft.Extensions.ServiceDiscovery;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
+using Serilog;
+using Serilog.Sinks.OpenTelemetry;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Microsoft.Extensions.Hosting;
 
 // Adds common .NET Aspire services: service discovery, resilience, health checks, and OpenTelemetry.
 // This project should be referenced by each service project in your solution.
 // To learn more about using this project, see https://aka.ms/dotnet/aspire/service-defaults
+[ExcludeFromCodeCoverage]
 public static class Extensions
 {
     public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
@@ -115,5 +122,39 @@ public static class Extensions
         }
 
         return app;
+    }
+
+    public static WebApplicationBuilder AddSerilogLogging(this WebApplicationBuilder builder, IWebHostEnvironment environment)
+    {
+        ArgumentNullException.ThrowIfNull(environment, nameof(environment));
+
+        if (environment.IsProduction())
+        {
+            builder.Logging.ClearProviders();
+        }
+
+        var serviceName = builder.Configuration.GetValue<string>("OTEL_SERVICE_NAME");
+        var exporterEndpoint = builder.Configuration.GetValue<string>("OTEL_EXPORTER_OTLP_ENDPOINT");
+        var exporterProtocol = builder.Configuration.GetValue<string>("OTEL_EXPORTER_OTLP_PROTOCOL");
+
+        var logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(builder.Configuration)
+                .Enrich.WithProperty("service_name", serviceName)
+                .WriteTo.OpenTelemetry(options =>
+                {
+                    options.Endpoint = exporterEndpoint;
+                    options.Protocol = OtlpProtocol.Grpc;
+                    options.ResourceAttributes = new Dictionary<string, object>
+                    {
+                        { "service.name", serviceName }
+                    };
+                })
+                .CreateLogger();
+
+        Log.Logger = logger;
+
+        builder.Logging.AddSerilog(logger);
+
+        return builder;
     }
 }

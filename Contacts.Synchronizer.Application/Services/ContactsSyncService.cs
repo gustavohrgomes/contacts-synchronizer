@@ -1,9 +1,10 @@
 ﻿using Contacts.Adapters.SyncContacts;
 using Contacts.DTOs;
+using Microsoft.Extensions.Logging;
 
 namespace Contacts.Services;
 
-public class ContactsSyncService(IContactsGetService contactsService, IContactsSynchronizer contactsSynchronizer) : IContactsSyncService
+public class ContactsSyncService(IContactsGetService contactsService, IContactsSynchronizer contactsSynchronizer, ILogger<ContactsSyncService> logger) : IContactsSyncService
 {
     public async Task<SyncedContactsResponse> SyncContactsAsync(CancellationToken cancellationToken = default)
     {
@@ -11,12 +12,10 @@ public class ContactsSyncService(IContactsGetService contactsService, IContactsS
 
         if (contacts is { Count: 0})
         {
-            return new SyncedContactsResponse(0, Array.Empty<ContactResponse>());
+            return new SyncedContactsResponse(0, []);
         }
 
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-        contactsSynchronizer.SynchronizeAsync(new SyncContactsCommand("Gustavo Gomes", contacts), cancellationToken);
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+        await contactsSynchronizer.SynchronizeAsync(new SyncContactsCommand("Gustavo Gomes", contacts), cancellationToken).ConfigureAwait(false);
 
         return new SyncedContactsResponse(contacts.Count, [.. contacts.Select(c => new ContactResponse(c.FirstName, c.LastName, c.Email))]);
     }

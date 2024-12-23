@@ -3,7 +3,7 @@ using Contacts.Proxies;
 
 namespace Contacts.Adapters.SyncContacts;
 
-public class MailchimpContactsSynchronizer(MailchimpClient mailchimpClient) : IContactsSynchronizer
+public class MailchimpContactsSynchronizer(IMailchimpClient mailchimpClient) : IContactsSynchronizer
 {
     public async Task SynchronizeAsync(SyncContactsCommand command, CancellationToken cancellationToken)
     {

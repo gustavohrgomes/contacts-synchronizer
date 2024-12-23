@@ -3,6 +3,10 @@
 	<Import Project="./../Contacts.props" />
 	
 	<ItemGroup>
+	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
+	</ItemGroup>
+	
+	<ItemGroup>
 	  <ProjectReference Include="..\Contacts.Synchronizer.Contracts\Contacts.Synchronizer.Contracts.csproj" />
 	  <ProjectReference Include="..\Contacts.Synchronizer.Domain\Contacts.Synchronizer.Domain.csproj" />
 	</ItemGroup>

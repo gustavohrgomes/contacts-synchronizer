@@ -4,14 +4,20 @@ using Contacts.Features.Sync;
 using Contacts.Proxies;
 using Contacts.Services;
 using Microsoft.AspNetCore.Http.Json;
-using OpenTelemetry.Metrics;
 using Refit;
 using System.Net.Http.Headers;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddServiceDefaults();
+builder.Configuration
+    .SetBasePath(builder.Environment.ContentRootPath)
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+
+builder
+    .AddServiceDefaults()
+    .AddSerilogLogging(builder.Environment);
 
 #region Json Options
 builder.Services.Configure<JsonOptions>(opt =>
@@ -56,7 +62,7 @@ builder.Services
     .ConfigureHttpClient(config => config.BaseAddress = new Uri(mockApiAddress));
 
 builder.Services
-    .AddHttpClient<MailchimpClient>(config =>
+    .AddHttpClient<IMailchimpClient, MailchimpClient>(config =>
     {
         config.BaseAddress = new Uri(mailMarketingAddress);
         config.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(mailMarketingAuthType, mailMarketingAPIKey);
@@ -85,3 +91,5 @@ app.UseExceptionHandler();
 app.UseOutputCache();
 
 app.Run();
+
+public partial class Program { }

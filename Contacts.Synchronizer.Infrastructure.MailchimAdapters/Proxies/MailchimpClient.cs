@@ -4,12 +4,12 @@ using System.Text.Json;
 
 namespace Contacts.Proxies;
 
-public class MailchimpClient(HttpClient client)
+public class MailchimpClient(HttpClient client) : IMailchimpClient
 {
     public async Task<string> CreateListAsync(CreateAudienceRequestModel request, CancellationToken cancellationToken)
     {
         var response = await client.PostAsJsonAsync("lists", request, cancellationToken);
-        
+
         response.EnsureSuccessStatusCode();
 
         var content = await response.Content.ReadAsStringAsync(cancellationToken);
