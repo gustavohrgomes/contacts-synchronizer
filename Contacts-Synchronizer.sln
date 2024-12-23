@@ -34,11 +34,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contacts.Synchronizer.Infra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contacts.Synchronizer.Application", "Contacts.Synchronizer.Application\Contacts.Synchronizer.Application.csproj", "{8E3D4294-AE9F-4A21-B6E3-8A129B842510}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CA278C63-B1C7-47D6-A73D-4ECD899F8421}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contacts.Synchronizer.Tests.Integration", "Contacts.Synchronizer.Tests.Integration\Contacts.Synchronizer.Tests.Integration.csproj", "{675750CB-0172-4B0B-B1DA-1DD5EA2D354B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contacts.Synchronizer.Tests.Unit", "Contacts.Synchronizer.Tests.Unit\Contacts.Synchronizer.Tests.Unit.csproj", "{803E2B81-811F-4B2D-9C6D-84544EFE238F}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81DDED9D-158B-E303-5F62-77A2896D2A5A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,6 +84,10 @@ Global
 		{803E2B81-811F-4B2D-9C6D-84544EFE238F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{803E2B81-811F-4B2D-9C6D-84544EFE238F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{803E2B81-811F-4B2D-9C6D-84544EFE238F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,8 +104,8 @@ Global
 		{6768462D-9AFF-FB43-8AD1-2E3C0B0E8475} = {C6877BA9-AC62-47EC-9155-D9553DF748B0}
 		{BC41C8CE-8813-4162-BC90-3C85935D6988} = {9DA96A1A-96FD-4E1F-A1EE-2FFF2E737B11}
 		{8E3D4294-AE9F-4A21-B6E3-8A129B842510} = {C6877BA9-AC62-47EC-9155-D9553DF748B0}
-		{675750CB-0172-4B0B-B1DA-1DD5EA2D354B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{803E2B81-811F-4B2D-9C6D-84544EFE238F} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{675750CB-0172-4B0B-B1DA-1DD5EA2D354B} = {CA278C63-B1C7-47D6-A73D-4ECD899F8421}
+		{803E2B81-811F-4B2D-9C6D-84544EFE238F} = {CA278C63-B1C7-47D6-A73D-4ECD899F8421}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C14B5B76-2830-4E27-9309-3EC1D21CE051}

@@ -40,7 +40,7 @@ public class ContactsFactory : WebApplicationFactory<Program>, IAsyncLifetime
         return Task.CompletedTask;
     }
 
-    public Task DisposeAsync()
+    public new Task DisposeAsync()
     {
         _mockApiServer.Dispose();
         return Task.CompletedTask;

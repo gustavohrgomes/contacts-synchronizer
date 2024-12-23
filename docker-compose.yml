@@ -1,0 +1,6 @@
+services:
+  contacts.synchronizer.webapi:
+    image: ${DOCKER_REGISTRY-}contactssynchronizerwebapi
+    build:
+      context: .
+      dockerfile: Contacts.Synchronizer.WebApi/Dockerfile
